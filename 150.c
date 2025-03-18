@@ -10,5 +10,5 @@ void main()
     printf("Informe os valores das 3 notas:\n");
     scanf("%f%f%f",&nota1,&nota2,&nota3);
     media = (nota1+nota2+nota3)/3;
-    printf("Média das notas: %2.f",media);
+    printf("Média das notas: %.2f",media);
 }
