@@ -12,5 +12,5 @@ void main()
     printf("Informe base e depois altura:\n");
     scanf("%f%f",&base,&altura);
     area_triangulo = (base * altura) / 2;
-    printf("Área do triangulo é %2.f\n",  area_triangulo);
+    printf("Área do triangulo é %.2f\n",  area_triangulo);
 }
