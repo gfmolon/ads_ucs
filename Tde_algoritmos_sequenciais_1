@@ -1,0 +1,24 @@
+/******************************************************************************
+
+978 65 89999 01 3
+
+*******************************************************************************/
+
+#include <stdio.h>
+
+void main()
+{
+    
+    long int numero_inteiro, digitos_extraidos;
+    
+    printf("Informe um número inteiro de 13 dígitos:\n");
+    scanf("%ld",&numero_inteiro);
+    
+    digitos_extraidos = numero_inteiro % 10000000000 / 10;
+   
+    digitos_extraidos = digitos_extraidos / 10000000;
+
+    printf("%ld\n",digitos_extraidos);
+    
+    
+}
