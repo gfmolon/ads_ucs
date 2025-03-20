@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int main() {
+    int codigo;
+    printf("Digite um código de 4 dígitos: ");
+    scanf("%d", &codigo);
+
+    int d1 = codigo % 10;
+    codigo /= 10;
+    int d2 = codigo % 10;
+    codigo /= 10;
+    int d3 = codigo % 10;
+    codigo /= 10;
+    int d4 = codigo % 10;
+
+    int soma = 0;
+
+    // Multiplica e soma os dígitos nas posições ímpares (da direita para a esquerda)
+    int d2_multiplicado = d2 * 2;
+    soma += (d2_multiplicado / 10) + (d2_multiplicado % 10);
+
+    int d4_multiplicado = d4 * 2;
+    soma += (d4_multiplicado / 10) + (d4_multiplicado % 10);
+
+    // Soma os dígitos nas posições pares
+    soma += d1 + d3;
+
+    int digito_verificador = (10 - (soma % 10)) % 10;
+
+    printf("O dígito verificador é: %d\n", digito_verificador);
+
+    return 0;
+}
