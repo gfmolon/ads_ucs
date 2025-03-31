@@ -31,27 +31,27 @@ void main()
 	//comidas
 	if (cod_prato == 1)
 	{
-		valor_prato = 39,99;
+		valor_prato = 39.99;
 	}
 
 	if (cod_prato == 2)
 	{
-		valor_prato = 45,00;
+		valor_prato = 45.00;
 	}
 
 	if (cod_prato == 3)
 	{
-		valor_prato = 120,00;
+		valor_prato = 120.00;
 	}
 
 	if (cod_prato == 4)
 	{
-		valor_prato = 45,00;
+		valor_prato = 45.00;
 	}	
 
 	if (cod_prato == 5)
 	{
-		valor_prato = 39,00;
+		valor_prato = 39.00;
 	}	
 
 	//bebidas
