@@ -19,7 +19,7 @@ void main()
 	cod_pedido_4 = (cod_comanda / 100);
 	cod_garcom_2 = (cod_comanda % 100);
 
-	printf("Número do Pedido: %d",cod_pedido_4);
-	printf("Atendido pelo garçom: %d",cod_garcom_2);
+	printf("Número do Pedido: %04d\n",cod_pedido_4);
+	printf("Atendido pelo garçom: %02d\n",cod_garcom_2);
 
 }
