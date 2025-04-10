@@ -1,0 +1,16 @@
+#Slide - Condição Existência do Triangulo
+
+s1 = int(input("lado1\n"))
+s2 = int(input("lado2\n"))
+s3 = int(input("lado3\n"))
+
+#3 lados
+#1 lado maior que os outros 2
+
+#OPERADORES: and e or
+
+if s1 < s2 + s3 and s2 < s1 + s3 and s3 < s1 + s2:
+    print("Pode ser um triângulo.")
+else:
+    print("Não pode ser um triangulo.")
+        
