@@ -1,0 +1,16 @@
+s1 = float(input("Lado 1\n"))
+s2 = float(input("Lado 2\n"))
+s3 = float(input("Lado 3\n"))
+
+if s1 < s2+s3 and s2 < s1+s3 and s3 < s1+s2:
+    print("Formam um triângulo")
+    
+    if s1 == s2 == s3:
+        print("Triangulo Equilatero") #iguais
+    elif s1 != s2 != s3:
+        print("Triangulo Escaleno") #todos diferentes
+    else:
+        print("Triangulo Isosceles") #2 lados iguais
+    
+else:
+    print("Não forma um triângulo")
