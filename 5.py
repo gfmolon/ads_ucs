@@ -1,14 +1,19 @@
-ano_nasc_atleta = int(input("Informe seu ano de nascimento: "))
+# M >= 15 anos 1.2+ salario
+# F >= 10 anos 1.25+ salario
+# outros todos bonus de 1000,00
 
-idade = 2025 - ano_nasc_atleta
+# calcular o bonus de natal
 
-if idade > 20:
-    print("Categoria: Master")
-elif idade == 20:
-    print("Categoria: Sênior")
-elif idade >= 15:  
-    print("Categoria: Junior")
-elif idade >= 10:  
-    print("Categoria: Infantil")
-else: 
-    print("Categoria: Mirim")
+sexo = input("Informe o sexo (M/F)").upper()
+tempo_servico = int(input("Informe o tempo de serviço em anos"))
+salario = float(input("Informe o Salário"))
+
+if sexo == "M" and tempo_servico >= 15:
+    bonus = (salario*1.2) - salario
+    print(f"Bonus: R$ {bonus:.2f}")
+elif sexo == "F" and tempo_servico >= 10:
+    bonus = (salario*1.25) - salario
+    print(f"Bonus: R$ {bonus:.2f}")
+else:
+    bonus = 1000
+    print(f"Bonus: R$ {bonus:.2f}")
