@@ -1,24 +1,32 @@
+#include <stdio.h>
 
-int main()
-{
-    int numero_secreto = 4;
+int main() {
+    int numero_secreto = 999;
     int palpite;
-    int tentativa =4;
+    int contador_tentativas = 0;
+    int max_tentativas = 5;
 
-    printf("Coloca teu palpite de número secreto:");
-    scanf("%d",&palpite);
+    printf("Coloca teu palpite de numero secreto: ");
+    scanf("%d", &palpite);
+    contador_tentativas++;
 
-    while(numero_secreto != palpite && tentativa > 0) {
-        printf("Tentativa: ----->>> %d\n", 5-tentativa);
+    while (palpite != numero_secreto && contador_tentativas < max_tentativas) {
+        printf("Tentativa %d:\n", contador_tentativas);
         if (palpite > numero_secreto) {
-            printf("Muito alto.. diferença de %d\n", palpite-numero_secreto );
-        } else if (palpite < numero_secreto) {
-            printf("Muito baixo.. diferença de %d\n", numero_secreto-palpite);
+            printf("Muito alto.. diferença de %d\n", palpite - numero_secreto);
+        } else {
+            printf("Muito baixo.. diferença de %d\n", numero_secreto - palpite);
         }
-        --tentativa;
+        printf("Coloca outro palpite: ");
         scanf("%d", &palpite);
+        contador_tentativas++;
     }
 
-    printf("Parabéns, você acertou!, o numero é %d", numero_secreto);
+    if (palpite == numero_secreto) {
+        printf("Parabens, voce acertou! O numero era %d\n", numero_secreto);
+    } else {
+        printf("Voce perdeu! O numero secreto era %d\n", numero_secreto);
+    }
+
     return 0;
 }
