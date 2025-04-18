@@ -102,6 +102,13 @@ end
 
 -- Substitui o comando :term para abrir o terminal na parte inferior
 vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
+-- Ja coloca no modo I
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    vim.cmd('startinsert')
+  end,
+})
 
 -- Adiciona o foco na arvore de arquivos quando ja esta anberta. (ctrl+n abre a arvore)
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
