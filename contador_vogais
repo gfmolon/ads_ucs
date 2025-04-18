@@ -1,0 +1,11 @@
+texto = input("Informe as letras")
+
+vogais = "aeiou"
+contador_vogais = 0
+for letra in texto:
+    
+    if letra in vogais:
+        contador_vogais+=1
+
+print(f"O total de vogais no texto é: {contador_vogais}")
+
