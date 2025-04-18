@@ -101,6 +101,17 @@ end
 
 
 -- Substitui o comando :term para abrir o terminal na parte inferior
-vim.api.nvim_command('command! -nargs=0 Term botright split | terminal')
+vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
 
+-- Adiciona o foco na arvore de arquivos quando ja esta anberta. (ctrl+n abre a arvore)
+vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', 'p', '<Cmd>NvimTreePaste<CR>', { noremap = true, silent = true, buffer = true })
+
+-- Seleciona o temrinal no diretorio do arquivo atual
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
+  callback = function()
+    vim.cmd('lcd %:p:h')
+  end,
+})
 
