@@ -9,12 +9,10 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
-vim.opt.swapfile = false  -- Desativa a criação de arquivos de swap
+vim.opt.swapfile = false
 
--- Atalho: Ctrl+t abre terminal dividido na horizontal
 vim.keymap.set('n', '<C-t>', ':belowright split | terminal<CR>', { noremap = true, silent = true })
 
--- Autocomando que insere 3 linhas vazias no fim do arquivo (não recomendado p/ código)
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
@@ -26,7 +24,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
--- Instala o Lazy.nvim (gerenciador de plugins)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -36,15 +33,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Plugins
 require("lazy").setup({
-  -- Temas
   { "olimorris/onedarkpro.nvim" },
-
-  -- LSP
   { "neovim/nvim-lspconfig" },
-
-  -- Autocompletar
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -52,29 +43,18 @@ require("lazy").setup({
       "L3MON4D3/LuaSnip",
     }
   },
-
-  -- Nvim Tree
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
-
-  -- Lualine
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 })
 
--- Tema
 vim.cmd("colorscheme onedark")
 
--- LSP Python e C
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {
-  settings = {
-    python = {
-      pythonPath = "/usr/local/bin/python3",
-    },
-  },
+  settings = { python = { pythonPath = "/usr/local/bin/python3" } },
 }
 lspconfig.clangd.setup{}
 
--- Autocompletion
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
@@ -89,12 +69,9 @@ cmp.setup({
     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
-  sources = {
-    { name = 'nvim_lsp' },
-  }
+  sources = { { name = 'nvim_lsp' } }
 })
 
--- Nvim Tree
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   view = {
@@ -113,18 +90,42 @@ require("nvim-tree").setup({
 
     api.config.mappings.default_on_attach(bufnr)
 
+    -- Enter e g: Abrem com foco
+    vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open with focus'))
+    vim.keymap.set('n', 'g', api.node.open.edit, opts('Open with focus'))
+
+    -- j/k: Movem e abrem sem sair da árvore
+    vim.keymap.set('n', 'j', function()
+      vim.cmd('normal! j')
+      local node = api.tree.get_node_under_cursor()
+      if node and not node.nodes then
+        api.node.open.preview()
+      end
+    end, opts('Down and preview'))
+
+    vim.keymap.set('n', 'k', function()
+      vim.cmd('normal! k')
+      local node = api.tree.get_node_under_cursor()
+      if node and not node.nodes then
+        api.node.open.preview()
+      end
+    end, opts('Up and preview'))
+
+    -- Ctrl+f: volta o foco para a árvore
+    vim.keymap.set('n', '<C-f>', api.tree.focus, opts('Focus on Tree'))
+
+    -- Exemplo de outro atalho personalizado
     vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
   end,
 })
+
 vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 
--- Lualine
 require('lualine').setup {
   options = { theme = 'onedark' }
 }
 
--- Configura o shell para o cmd.exe completo no Windows
 if vim.fn.has('win32') or vim.fn.has('win64') then
   vim.opt.shell = 'C:\\Windows\\System32\\cmd.exe'
   vim.opt.shellcmdflag = '/C'
@@ -132,9 +133,7 @@ if vim.fn.has('win32') or vim.fn.has('win64') then
   vim.opt.shellxquote = ''
 end
 
--- Substitui o comando :term para abrir o terminal na parte inferior
 vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
--- Já coloca no modo insert
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
@@ -142,7 +141,6 @@ vim.api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
--- Seleciona o terminal no diretório do arquivo atual
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
