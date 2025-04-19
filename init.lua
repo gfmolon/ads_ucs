@@ -81,8 +81,46 @@ cmp.setup({
 })
 
 -- Nvim Tree
-require("nvim-tree").setup()
-vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>')
+local api = require("nvim-tree.api")
+require("nvim-tree").setup({
+  view = {
+    width = 30,
+    side = "left",
+  },
+  actions = {
+    open_file = {
+      quit_on_open = false,
+    },
+  },
+  on_attach = function(bufnr)
+    local function opts(desc)
+      return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    api.config.mappings.default_on_attach(bufnr)
+
+    local timer = nil
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      buffer = bufnr,
+      callback = function()
+        if timer then
+          vim.loop.timer_stop(timer)
+          timer = nil
+        end
+        timer = vim.defer_fn(function()
+          local node = api.tree.get_node_under_cursor()
+          if node and node.type == "file" then
+            api.node.open.edit(node, { focus = false })
+          end
+        end, 100)
+      end,
+    })
+
+    vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+  end,
+})
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 
 -- Lualine
 require('lualine').setup {
@@ -99,10 +137,9 @@ if vim.fn.has('win32') or vim.fn.has('win64') then
   vim.opt.shellxquote = ''
 end
 
-
 -- Substitui o comando :term para abrir o terminal na parte inferior
 vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
--- Ja coloca no modo I
+-- Já coloca no modo insert
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
@@ -110,15 +147,10 @@ vim.api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
--- Adiciona o foco na arvore de arquivos quando ja esta anberta. (ctrl+n abre a arvore)
-vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', 'p', '<Cmd>NvimTreePaste<CR>', { noremap = true, silent = true, buffer = true })
-
--- Seleciona o temrinal no diretorio do arquivo atual
+-- Seleciona o terminal no diretório do arquivo atual
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
     vim.cmd('lcd %:p:h')
   end,
 })
-
