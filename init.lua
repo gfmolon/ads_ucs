@@ -3,7 +3,7 @@ vim.g.python3_host_prog = 'C:\\Users\\Usuario\\AppData\\Local\\Programs\\Python\
 
 -- Definições básicas
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
