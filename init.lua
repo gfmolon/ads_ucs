@@ -37,8 +37,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-  -- Temas
-  { "olimorris/onedarkpro.nvim" },
+  -- Tema One Dark
+  { "navarasu/onedark.nvim" },
 
   -- LSP
   { "neovim/nvim-lspconfig" },
@@ -59,8 +59,11 @@ require("lazy").setup({
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 })
 
--- Tema
-vim.cmd("colorscheme onedark")
+-- Tema One Dark
+require('onedark').setup {
+  style = 'dark'
+}
+require('onedark').load()
 
 -- LSP Python e C
 local lspconfig = require("lspconfig")
@@ -139,6 +142,7 @@ end
 
 -- Substitui o comando :term para abrir o terminal na parte inferior
 vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
+
 -- Já coloca no modo insert
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
