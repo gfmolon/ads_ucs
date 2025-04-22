@@ -9,9 +9,17 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.cursorline = true
+vim.cmd [[
+  highlight CursorLine guibg=#2c313a
+]]
 
 -- Atalho: Ctrl+t abre terminal dividido na horizontal
 vim.keymap.set('n', '<C-t>', ':belowright split | terminal<CR>', { noremap = true, silent = true })
+
+-- Atalho: ; vira :
+vim.keymap.set('n', ';', ':', { noremap = true })
+vim.keymap.set('v', ';', ':', { noremap = true })
 
 -- Autocomando que insere 3 linhas vazias no fim do arquivo (não recomendado p/ código)
 vim.api.nvim_create_autocmd("BufWritePre", {
