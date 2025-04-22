@@ -119,6 +119,14 @@ require("nvim-tree").setup({
       end,
     })
 
+    -- Atalho g = Enter (abrir com foco)
+    vim.keymap.set('n', 'g', function()
+      local node = api.tree.get_node_under_cursor()
+      if node then
+        api.node.open.edit(node)
+      end
+    end, opts("Abrir com foco"))
+
     vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
   end,
 })
