@@ -46,7 +46,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-  { "navarasu/onedark.nvim" }, -- Tema One Dark original
+  { "navarasu/onedark.nvim" },
   { "neovim/nvim-lspconfig" },
   {
     "hrsh7th/nvim-cmp",
@@ -70,7 +70,7 @@ lspconfig.pyright.setup {
 }
 lspconfig.clangd.setup{}
 
--- Autocompletion
+-- Autocompletion com ajuste do Tab
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 cmp.setup({
@@ -83,16 +83,30 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif vim.fn.col('.') == 1 or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') then
+        fallback()
       else
         cmp.complete()
       end
     end, { "i", "s" }),
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
   sources = { { name = 'nvim_lsp' } },
   completion = {
-    autocomplete = false -- Desativa popup automático
+    autocomplete = false
   },
 })
 
@@ -115,11 +129,9 @@ require("nvim-tree").setup({
 
     api.config.mappings.default_on_attach(bufnr)
 
-    -- Enter e g: abrem com foco
     vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open with focus'))
     vim.keymap.set('n', 'g', api.node.open.edit, opts('Open with focus'))
 
-    -- j/k: Movem e abrem sem sair da árvore
     vim.keymap.set('n', 'j', function()
       vim.cmd('normal! j')
       local node = api.tree.get_node_under_cursor()
@@ -136,19 +148,15 @@ require("nvim-tree").setup({
       end
     end, opts('Up and preview'))
 
-    -- Ctrl+f: volta o foco para a árvore
     vim.keymap.set('n', '<C-f>', api.tree.focus, opts('Focus on Tree'))
-
-    -- Exemplo de outro atalho personalizado
     vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
   end,
 })
 
--- Atalhos globais do Nvim Tree
 vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 
--- Lualine com tema
+-- Lualine
 require('lualine').setup {
   options = { theme = 'onedark' }
 }
