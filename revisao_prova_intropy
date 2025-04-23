@@ -1,0 +1,60 @@
+
+nome = input("Informe o nome do funcionario")
+h1_entrada = int(input("Horario de Entrada 1"))
+h1_saida = int(input("Horario de Saída 1"))
+h2_entrada = int(input("Horario de Entrada 2"))
+h2_saida = int(input("Horario de Saída 2"))
+h3_entrada = int(input("Horario de Entrada 3"))
+h3_saida = int(input("Horario de Saída 3"))
+
+if h1_entrada > h1_saida:
+    duracao1 = (24 - h1_entrada) + h1_saida
+else:
+    duracao1 = h1_saida - h1_entrada
+
+if h2_entrada > h2_saida:
+    duracao2 = (24 - h2_entrada) + h2_saida
+else:
+    duracao2 = h2_saida - h2_entrada
+
+if h3_entrada > h3_saida:
+    duracao3 = (24 - h3_entrada) + h3_saida
+else:
+    duracao3 = h3_saida - h3_entrada
+
+maior = duracao1
+menor = duracao1
+maior_turno = 1
+menor_turno = 1
+
+if duracao2>maior:
+    maior = duracao2
+    maior_turno = 2
+if duracao3>maior:
+    maior = duracao3
+    maior_turno = 3
+
+if duracao2<menor:
+    menor=duracao2
+    menor_turno = 2
+if duracao3<menor:
+    menor=duracao3
+    menor_turno=3
+
+
+print(f"Maior turno:{maior_turno}")
+print(f"Menor turno:{menor_turno}")
+
+total_horas = duracao1+duracao2+duracao3
+
+if total_horas < 6:
+    print("Carga horária insuficiente.")
+elif total_horas <= 8:
+    print("Jornada Adequada.")
+else:
+    print("Hora extra realizada.")
+
+
+
+
+
