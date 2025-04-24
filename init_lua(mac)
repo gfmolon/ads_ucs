@@ -11,6 +11,9 @@ vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.swapfile = false
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.smarttab = true
 
 -- Destaque da linha atual
 vim.cmd [[
