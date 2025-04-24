@@ -73,6 +73,12 @@ lspconfig.clangd.setup{}
 -- Autocompletion com ajuste do Tab
 local cmp = require'cmp'
 local luasnip = require'luasnip'
+
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("%S")
+end
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -85,10 +91,10 @@ cmp.setup({
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif vim.fn.col('.') == 1 or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') then
-        fallback()
-      else
+      elseif has_words_before() then
         cmp.complete()
+      else
+        fallback()
       end
     end, { "i", "s" }),
 
@@ -105,9 +111,6 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
   sources = { { name = 'nvim_lsp' } },
-  completion = {
-    autocomplete = false
-  },
 })
 
 -- Nvim Tree
