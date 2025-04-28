@@ -119,14 +119,49 @@ cmp.setup({
 -- Nvim Tree
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
+  sort = {
+    sorter = "name",
+    folders_first = true,
+  },
   view = {
     width = 30,
     side = "left",
+    preserve_window_proportions = true,
+    number = false,
+    relativenumber = false,
+    signcolumn = "yes",
+  },
+  renderer = {
+    group_empty = true,
+    highlight_git = true,
+    icons = {
+      show = {
+        file = true,
+        folder = true,
+        folder_arrow = true,
+        git = true,
+      },
+    },
+  },
+  filters = {
+    dotfiles = false,
+    custom = { ".git", "node_modules", ".cache" },
   },
   actions = {
     open_file = {
       quit_on_open = false,
+      window_picker = { enable = false },
     },
+  },
+  git = {
+    enable = true,
+    ignore = true,
+  },
+  hijack_netrw = true,
+  open_on_tab = false,
+  update_focused_file = {
+    enable = false,
+    update_root = true,
   },
   on_attach = function(bufnr)
     local function opts(desc)
@@ -135,27 +170,12 @@ require("nvim-tree").setup({
 
     api.config.mappings.default_on_attach(bufnr)
 
-    vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open with focus'))
-    vim.keymap.set('n', 'g', api.node.open.edit, opts('Open with focus'))
-
-    vim.keymap.set('n', 'j', function()
-      vim.cmd('normal! j')
-      local node = api.tree.get_node_under_cursor()
-      if node and not node.nodes then
-        api.node.open.preview()
-      end
-    end, opts('Down and preview'))
-
-    vim.keymap.set('n', 'k', function()
-      vim.cmd('normal! k')
-      local node = api.tree.get_node_under_cursor()
-      if node and not node.nodes then
-        api.node.open.preview()
-      end
-    end, opts('Up and preview'))
-
-    vim.keymap.set('n', '<C-f>', api.tree.focus, opts('Focus on Tree'))
-    vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+    -- Correção dos atalhos
+    vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))
+    vim.keymap.set('n', 'g', api.node.open.edit, opts('Open File'))
+    vim.keymap.set('n', 'j', 'j', opts('Move Down'))
+    vim.keymap.set('n', 'k', 'k', opts('Move Up'))
+    vim.keymap.set('n', '<C-f>', api.tree.focus, opts('Focus Tree'))
   end,
 })
 
