@@ -60,10 +60,18 @@ require("lazy").setup({
   },
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      indent = { char = "│" },
+      scope = { enabled = false },
+    },
+  },
 })
 
 -- Tema Everforest (modo escuro, minimalista)
-vim.g.everforest_background = "medium"  -- opções: "soft", "medium", "hard"
+vim.g.everforest_background = "medium"
 vim.g.everforest_enable_italic = 1
 vim.g.everforest_disable_italic_comment = 1
 vim.g.everforest_better_performance = 1
