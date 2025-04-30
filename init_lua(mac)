@@ -14,18 +14,23 @@ vim.opt.swapfile = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.smarttab = true
+vim.opt.mouse = ""
 
--- Destaque da linha atual
+-- Melhorias de desempenho e conforto
+vim.opt.updatetime = 300
+vim.opt.timeoutlen = 500
+vim.opt.colorcolumn = "80"
+
+-- Destaque dinâmico da linha atual
 vim.cmd [[
-  highlight CursorLine guibg=#2c313a
+  augroup CursorLine
+    autocmd!
+    autocmd InsertLeave,WinEnter * set cursorline
+    autocmd InsertEnter,WinLeave * set nocursorline
+  augroup END
 ]]
 
--- Atalhos personalizados
-vim.keymap.set('n', '<C-t>', ':belowright split | terminal<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', ';', ':', { noremap = true })
-vim.keymap.set('v', ';', ':', { noremap = true })
-
--- Autocomando que insere 3 linhas vazias ao final de arquivos
+-- Autocomando que insere 2 linhas vazias ao final de arquivos
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
@@ -35,6 +40,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       vim.fn.append(lastline, {"", ""})
     end
   end
+})
+
+-- Autosalvar ao perder o foco
+vim.api.nvim_create_autocmd("FocusLost", {
+  pattern = "*",
+  command = "silent! wa",
 })
 
 -- Lazy.nvim - Plugin manager
@@ -82,6 +93,15 @@ vim.g.everforest_disable_italic_comment = 1
 vim.g.everforest_better_performance = 1
 vim.cmd[[colorscheme everforest]]
 
+-- Diagnóstico LSP com visual melhorado
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+})
+
 -- LSP Python e C
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {
@@ -108,7 +128,7 @@ cmp.setup({
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
+      elseif luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
@@ -230,3 +250,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.cmd('lcd %:p:h')
   end,
 })
+
+vim.keymap.set('n', ';', ':', { noremap = true })
+vim.keymap.set('v', ';', ':', { noremap = true })
