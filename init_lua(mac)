@@ -19,7 +19,7 @@ vim.opt.mouse = ""
 -- Melhorias de desempenho e conforto
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
-vim.opt.colorcolumn = "80"
+--vim.opt.colorcolumn = "80"--
 
 -- Destaque dinâmico da linha atual
 vim.cmd [[
