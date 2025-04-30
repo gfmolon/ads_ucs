@@ -1,0 +1,39 @@
+
+
+#include <stdio.h>
+
+int main() {
+
+    int n, n_original, digitos, contador;
+
+    while(1) {
+
+    printf("Informe um número\n");
+    scanf("%d",&n);
+    n_original = n;
+
+    contador=0;
+      
+    if (n_original == 999) {
+        printf("Programa encerrado.");
+        break;
+    }
+
+    if (n == 0) {
+        contador=1;
+    } else if (n < 0) {
+        n = -n;
+    }
+
+    while(n != 0) {
+        n = n / 10; 
+        contador++;
+    }
+    
+    printf("n: %d tem %d dígito(s)!\n",n_original, contador);
+    
+    }
+
+return 0;
+}
+
