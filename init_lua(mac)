@@ -49,7 +49,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-  { "navarasu/onedark.nvim" },
+  { "sainnhe/everforest" },
   { "neovim/nvim-lspconfig" },
   {
     "hrsh7th/nvim-cmp",
@@ -62,9 +62,12 @@ require("lazy").setup({
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 })
 
--- Tema One Dark
-require('onedark').setup { style = 'dark' }
-require('onedark').load()
+-- Tema Everforest (modo escuro, minimalista)
+vim.g.everforest_background = "medium"  -- opções: "soft", "medium", "hard"
+vim.g.everforest_enable_italic = 1
+vim.g.everforest_disable_italic_comment = 1
+vim.g.everforest_better_performance = 1
+vim.cmd[[colorscheme everforest]]
 
 -- LSP Python e C
 local lspconfig = require("lspconfig")
@@ -170,7 +173,6 @@ require("nvim-tree").setup({
 
     api.config.mappings.default_on_attach(bufnr)
 
-    -- Correção dos atalhos
     vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'g', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'j', 'j', opts('Move Down'))
@@ -186,7 +188,7 @@ vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = tr
 
 -- Lualine
 require('lualine').setup {
-  options = { theme = 'onedark' }
+  options = { theme = 'everforest' }
 }
 
 -- Terminal para macOS (zsh)
