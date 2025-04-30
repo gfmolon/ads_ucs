@@ -10,15 +10,15 @@ int main() {
 
     printf("Informe um número\n");
     scanf("%d",&n);
-    n_original = n;
-
-    contador=0;
-      
-    if (n_original == 999) {
-        printf("Programa encerrado.");
+    
+    if (n == 999) {
+        printf("Programa encerrado.\n");
         break;
     }
 
+    n_original = n;
+    contador = 0;
+      
     if (n == 0) {
         contador=1;
     } else if (n < 0) {
