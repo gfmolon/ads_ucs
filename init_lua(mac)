@@ -127,7 +127,7 @@ cmp.setup({
   sources = { { name = 'nvim_lsp' } },
 })
 
--- Nvim Tree
+-- Nvim Tree (corrigido e funcional)
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   sort = {
@@ -166,12 +166,13 @@ require("nvim-tree").setup({
   },
   git = {
     enable = true,
-    ignore = true,
+    ignore = false,
   },
   hijack_netrw = true,
   open_on_tab = false,
+  reload_on_bufenter = true,
   update_focused_file = {
-    enable = false,
+    enable = true,
     update_root = true,
   },
   on_attach = function(bufnr)
