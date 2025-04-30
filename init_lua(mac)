@@ -68,9 +68,14 @@ require("lazy").setup({
       scope = { enabled = false },
     },
   },
+  { "folke/which-key.nvim", config = true },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  },
 })
 
--- Tema Everforest (modo escuro, minimalista)
+-- Tema Everforest
 vim.g.everforest_background = "medium"
 vim.g.everforest_enable_italic = 1
 vim.g.everforest_disable_italic_comment = 1
@@ -84,7 +89,7 @@ lspconfig.pyright.setup {
 }
 lspconfig.clangd.setup{}
 
--- Autocompletion com ajuste do Tab
+-- Autocompletion
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
@@ -127,7 +132,7 @@ cmp.setup({
   sources = { { name = 'nvim_lsp' } },
 })
 
--- Nvim Tree (corrigido e funcional)
+-- Nvim Tree
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   sort = {
@@ -195,21 +200,23 @@ vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = t
 vim.keymap.set('n', '<C-z>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 
+-- Telescope keymaps
+vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
+
 -- Lualine
 require('lualine').setup {
   options = { theme = 'everforest' }
 }
 
--- Terminal para macOS (zsh)
+-- Terminal para macOS
 vim.opt.shell = '/bin/zsh'
 vim.opt.shellcmdflag = '-c'
 vim.opt.shellquote = ''
 vim.opt.shellxquote = ''
 
--- Comando :T abre terminal
 vim.api.nvim_command('command! -nargs=0 T botright split | terminal')
 
--- Terminal inicia no modo insert
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
@@ -217,7 +224,6 @@ vim.api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
--- Terminal abre no diretório do arquivo atual
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
