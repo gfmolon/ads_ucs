@@ -60,7 +60,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-  { "sainnhe/everforest" },
+  { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
   { "neovim/nvim-lspconfig" },
   {
     "hrsh7th/nvim-cmp",
@@ -76,10 +76,15 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" }
   },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {}
+  },
 })
 
--- Tema Everforest
-vim.cmd[[colorscheme everforest]]
+-- Tema Tokyonight Night
+vim.cmd[[colorscheme tokyonight-night]]
 
 -- Diagnóstico LSP com visual melhorado
 vim.diagnostic.config({
@@ -186,9 +191,21 @@ vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
 
--- Lualine
+-- Lualine com tema Tokyonight
 require('lualine').setup {
-  options = { theme = 'everforest' }
+  options = { theme = 'tokyonight' }
+}
+
+-- indent-blankline (visual de indentação)
+require("ibl").setup {
+  indent = {
+    char = "│",
+  },
+  scope = {
+    enabled = true,
+    show_start = false,
+    show_end = false,
+  },
 }
 
 -- Terminal para macOS
