@@ -232,3 +232,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 vim.keymap.set('n', ';', ':', { noremap = true })
 vim.keymap.set('v', ';', ':', { noremap = true })
+
+vim.opt.title = true
+vim.opt.titlestring = "%t"
