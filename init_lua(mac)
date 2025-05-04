@@ -19,7 +19,6 @@ vim.opt.mouse = ""
 -- Melhorias de desempenho e conforto
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
---vim.opt.colorcolumn = "80"--
 
 -- Destaque dinâmico da linha atual
 vim.cmd [[
@@ -60,7 +59,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-  { "folke/tokyonight.nvim", lazy = false, priority = 1000 },
+  { "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
   { "neovim/nvim-lspconfig" },
   {
     "hrsh7th/nvim-cmp",
@@ -85,8 +84,9 @@ require("lazy").setup({
   { "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 })
 
--- Tema Tokyonight Night
-vim.cmd[[colorscheme tokyonight-night]]
+-- Tema Gruvbox clássico (dark)
+vim.o.background = "dark"
+vim.cmd[[colorscheme gruvbox]]
 
 -- Diagnóstico LSP com visual melhorado
 vim.diagnostic.config({
@@ -120,14 +120,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Nvim Tree (mantém raiz do projeto visível)
+-- Nvim Tree
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   sort = {
     sorter = "name",
     folders_first = true,
   },
-  sync_root_with_cwd = false, -- raiz fixa
+  sync_root_with_cwd = false,
   view = {
     width = 30,
     side = "left",
@@ -167,7 +167,7 @@ require("nvim-tree").setup({
   reload_on_bufenter = true,
   update_focused_file = {
     enable = true,
-    update_root = false, -- não altera a raiz
+    update_root = false,
   },
   on_attach = function(bufnr)
     local function opts(desc)
@@ -175,7 +175,6 @@ require("nvim-tree").setup({
     end
 
     api.config.mappings.default_on_attach(bufnr)
-
     vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'g', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'j', 'j', opts('Move Down'))
@@ -193,21 +192,15 @@ vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
 
--- Lualine com tema Tokyonight
+-- Lualine com tema Gruvbox
 require('lualine').setup {
-  options = { theme = 'tokyonight' }
+  options = { theme = 'gruvbox' }
 }
 
--- indent-blankline (visual de indentação)
+-- indent-blankline
 require("ibl").setup {
-  indent = {
-    char = "│",
-  },
-  scope = {
-    enabled = true,
-    show_start = false,
-    show_end = false,
-  },
+  indent = { char = "│" },
+  scope = { enabled = true, show_start = false, show_end = false },
 }
 
 -- Terminal para macOS
