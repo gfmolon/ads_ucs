@@ -1,7 +1,5 @@
--- Caminho para Python (ajustado para macOS)
 vim.g.python3_host_prog = '/usr/local/bin/python3'
 
--- Definições básicas
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.tabstop = 4
@@ -15,12 +13,9 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.smarttab = true
 vim.opt.mouse = ""
-
--- Melhorias de desempenho e conforto
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 
--- Destaque dinâmico da linha atual
 vim.cmd [[
   augroup CursorLine
     autocmd!
@@ -29,25 +24,11 @@ vim.cmd [[
   augroup END
 ]]
 
--- Autocomando que insere 2 linhas vazias ao final de arquivos
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    local lastline = vim.fn.line('$')
-    local line = vim.fn.getline(lastline)
-    if line ~= "" then
-      vim.fn.append(lastline, {"", ""})
-    end
-  end
-})
-
--- Autosalvar ao perder o foco
 vim.api.nvim_create_autocmd("FocusLost", {
   pattern = "*",
   command = "silent! wa",
 })
 
--- Lazy.nvim - Plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -57,7 +38,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Plugins
 require("lazy").setup({
   { "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
   { "neovim/nvim-lspconfig" },
@@ -84,11 +64,9 @@ require("lazy").setup({
   { "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 })
 
--- Tema Gruvbox clássico (dark)
 vim.o.background = "dark"
 vim.cmd[[colorscheme gruvbox]]
 
--- Diagnóstico LSP com visual melhorado
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
@@ -97,14 +75,12 @@ vim.diagnostic.config({
   severity_sort = true,
 })
 
--- LSP Python e C
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup {
   settings = { python = { pythonPath = "/usr/local/bin/python3" } },
 }
 lspconfig.clangd.setup{}
 
--- null-ls para formatar Python e C
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
@@ -120,7 +96,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Nvim Tree
 local api = require("nvim-tree.api")
 require("nvim-tree").setup({
   sort = {
@@ -173,7 +148,6 @@ require("nvim-tree").setup({
     local function opts(desc)
       return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
     end
-
     api.config.mappings.default_on_attach(bufnr)
     vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'g', api.node.open.edit, opts('Open File'))
@@ -188,22 +162,18 @@ vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = t
 vim.keymap.set('n', '<C-z>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 
--- Telescope keymaps
 vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
 
--- Lualine com tema Gruvbox
 require('lualine').setup {
   options = { theme = 'gruvbox' }
 }
 
--- indent-blankline
 require("ibl").setup {
   indent = { char = "│" },
   scope = { enabled = true, show_start = false, show_end = false },
 }
 
--- Terminal para macOS
 vim.opt.shell = '/bin/zsh'
 vim.opt.shellcmdflag = '-c'
 vim.opt.shellquote = ''
@@ -225,10 +195,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
--- Mapas rápidos
 vim.keymap.set('n', ';', ':', { noremap = true })
 vim.keymap.set('v', ';', ':', { noremap = true })
 
--- Título da janela
 vim.opt.title = true
 vim.opt.titlestring = "%t"
