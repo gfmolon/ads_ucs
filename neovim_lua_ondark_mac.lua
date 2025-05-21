@@ -13,7 +13,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.cursorline = true
+vim.opt.cursorline = true -- Mantém sempre ligado
 vim.opt.swapfile = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -22,14 +22,8 @@ vim.opt.mouse = ''
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 
--- Highlight de Cursor
-vim.cmd [[
-  augroup CursorLine
-    autocmd!
-    autocmd InsertLeave,WinEnter * set cursorline
-    autocmd InsertEnter,WinLeave * set nocursorline
-  augroup END
-]]
+vim.opt.title = true
+vim.opt.titlestring = '%t'
 
 -- Auto salvar ao perder foco
 vim.api.nvim_create_autocmd('FocusLost', {
@@ -83,7 +77,7 @@ require('lazy').setup({
 -- ===============================
 vim.o.background = 'dark'
 require('onedark').setup {
-  style = 'dark' -- opções: 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'
+  style = 'dark'
 }
 require('onedark').load()
 
@@ -150,8 +144,6 @@ require('nvim-tree').setup({
     local function opts(desc)
       return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
     end
-
-    -- Mapeamentos sem conflitos
     api.config.mappings.default_on_attach(bufnr)
     vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))
     vim.keymap.set('n', 'g', api.node.open.edit, opts('Open File'))
@@ -166,6 +158,9 @@ vim.keymap.set('n', '<C-z>', ':NvimTreeFocus<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('n', ';', ':', { noremap = true })
+vim.keymap.set('v', ';', ':', { noremap = true })
 
 -- ===============================
 --       Terminal Integrado
@@ -185,9 +180,3 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.cmd('lcd %:p:h')
   end,
 })
-
-vim.keymap.set('n', ';', ':', { noremap = true })
-vim.keymap.set('v', ';', ':', { noremap = true })
-
-vim.opt.title = true
-vim.opt.titlestring = '%t'
