@@ -31,8 +31,12 @@ def excluir(lista):
     else:
         listar(lista)
         playlist = int(input("INFORME O NÚMERO PARA EXCLUIR"))
-        lista.pop(playlist)
-        listar(lista)
+        if playlist > 0 and playlist <= len(lista):
+            lista.pop(playlist)
+            listar(lista)
+        else:
+            print("Número da playlist não encontrado").
+            playlist
 
 while(True): 
 
