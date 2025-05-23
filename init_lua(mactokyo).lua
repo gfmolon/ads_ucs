@@ -180,3 +180,25 @@ vim.keymap.set('v', ';', ':', { noremap = true })
 
 vim.opt.title = true
 vim.opt.titlestring = '%t'
+
+-- ===============================
+--     Configuração none-ls
+-- ===============================
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.black,        -- Para Python
+    null_ls.builtins.formatting.clang_format, -- Para C/C++
+  },
+})
+
+-- ===============================
+-- Auto formatação ao salvar
+-- ===============================
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
