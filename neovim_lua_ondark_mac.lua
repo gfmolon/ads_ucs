@@ -13,7 +13,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.cursorline = true -- Mantém sempre ligado
+vim.opt.cursorline = true
 vim.opt.swapfile = false
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -21,7 +21,6 @@ vim.opt.smarttab = true
 vim.opt.mouse = ''
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
-
 vim.opt.title = true
 vim.opt.titlestring = '%t'
 
@@ -76,9 +75,7 @@ require('lazy').setup({
 --        Tema One Dark
 -- ===============================
 vim.o.background = 'dark'
-require('onedark').setup {
-  style = 'dark'
-}
+require('onedark').setup { style = 'dark' }
 require('onedark').load()
 
 -- ===============================
@@ -94,10 +91,7 @@ require('lualine').setup {
 local api = require("nvim-tree.api")
 
 require('nvim-tree').setup({
-  sort = {
-    sorter = 'name',
-    folders_first = true
-  },
+  sort = { sorter = 'name', folders_first = true },
   sync_root_with_cwd = false,
   view = {
     width = 30,
@@ -111,35 +105,21 @@ require('nvim-tree').setup({
     group_empty = true,
     highlight_git = true,
     icons = {
-      show = {
-        file = true,
-        folder = true,
-        folder_arrow = true,
-        git = true
-      }
+      show = { file = true, folder = true, folder_arrow = true, git = true }
     }
   },
-  filters = {
-    dotfiles = false,
-    custom = { '.git', 'node_modules', '.cache' }
-  },
+  filters = { dotfiles = false, custom = { '.git', 'node_modules', '.cache' } },
   actions = {
     open_file = {
       quit_on_open = false,
       window_picker = { enable = false }
     }
   },
-  git = {
-    enable = true,
-    ignore = false
-  },
+  git = { enable = true, ignore = false },
   hijack_netrw = true,
   open_on_tab = false,
   reload_on_bufenter = true,
-  update_focused_file = {
-    enable = true,
-    update_root = false
-  },
+  update_focused_file = { enable = true, update_root = false },
   on_attach = function(bufnr)
     local function opts(desc)
       return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
@@ -158,7 +138,6 @@ vim.keymap.set('n', '<C-z>', ':NvimTreeFocus<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })
-
 vim.keymap.set('n', ';', ':', { noremap = true })
 vim.keymap.set('v', ';', ':', { noremap = true })
 
@@ -178,5 +157,28 @@ vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*',
   callback = function()
     vim.cmd('lcd %:p:h')
+  end,
+})
+
+-- ===============================
+--    Formatação automática com None-LS
+-- ===============================
+local null_ls = require("null-ls")
+local formatting = null_ls.builtins.formatting
+
+null_ls.setup({
+  sources = {
+    formatting.black.with({ extra_args = { "--fast" } }), -- Python
+    formatting.clang_format, -- C/C++
+  },
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr })
+        end,
+      })
+    end
   end,
 })
