@@ -46,7 +46,7 @@ vim.opt.rtp:prepend(lazypath)
 --     Instalação dos Plugins
 -- ===============================
 require('lazy').setup({
-  { 'nyoom-engineering/oxocarbon.nvim', priority = 1000, config = true },
+  { 'nyoom-engineering/oxocarbon.nvim', priority = 1000 },
   { 'neovim/nvim-lspconfig' },
   {
     'hrsh7th/nvim-cmp',
@@ -81,7 +81,7 @@ vim.cmd('colorscheme oxocarbon')
 --        Configuração Lualine
 -- ===============================
 require('lualine').setup {
-  options = { theme = 'auto' }  -- oxocarbon não fornece tema nativo, então usa 'auto'
+  options = { theme = 'auto' }
 }
 
 -- ===============================
