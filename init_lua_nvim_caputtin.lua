@@ -137,3 +137,6 @@ vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, si
 vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', { noremap = true, silent = true })       -- ajuda
 vim.keymap.set('n', '<leader>fo', ':Telescope oldfiles<CR>', { noremap = true, silent = true })        -- arquivos recentes
 vim.keymap.set('n', '<C-z>', '<Nop>')
+-- Focar de volta no NvimTree com Ctrl+f e Ctrl+x
+vim.keymap.set('n', '<C-f>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-z>', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
