@@ -136,3 +136,4 @@ vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, 
 vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, silent = true })         -- buffers abertos
 vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', { noremap = true, silent = true })       -- ajuda
 vim.keymap.set('n', '<leader>fo', ':Telescope oldfiles<CR>', { noremap = true, silent = true })        -- arquivos recentes
+vim.keymap.set('n', '<C-z>', '<Nop>')
