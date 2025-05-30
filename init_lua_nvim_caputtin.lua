@@ -108,3 +108,31 @@ vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, 
 -- Reforça ":" com ";" no modo normal e visual
 vim.keymap.set('n', ';', ':', { noremap = true })
 vim.keymap.set('v', ';', ':', { noremap = true })
+
+-- ===============================
+-- Terminal integrado :T
+-- ===============================
+vim.api.nvim_create_user_command("T", "botright split | terminal", {})
+
+-- Entrar em modo de inserção automaticamente ao abrir o terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("startinsert")
+  end,
+})
+
+-- Atualiza diretório ao mudar de buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("lcd %:p:h")
+  end,
+})
+
+ 
+vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })      -- buscar arquivos
+vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })       -- buscar texto
+vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, silent = true })         -- buffers abertos
+vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', { noremap = true, silent = true })       -- ajuda
+vim.keymap.set('n', '<leader>fo', ':Telescope oldfiles<CR>', { noremap = true, silent = true })        -- arquivos recentes
